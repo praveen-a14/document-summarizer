@@ -1,4 +1,3 @@
 boto3
 openai
 PyPDF2
-docx
