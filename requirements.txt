@@ -3,4 +3,3 @@ openai
 PyPDF2
 docx
 exceptions
-warnings
