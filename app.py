@@ -7,19 +7,16 @@ from io import BytesIO
 from PyPDF2 import PdfReader
 from docx import Document
 
-# S3 Setup
 s3_client = boto3.client(
     's3',
     aws_access_key_id=os.getenv("AWS_ACCESS_KEY"),
     aws_secret_access_key=os.getenv("AWS_SECRET_KEY"),
     region_name="us-west-1"
 )
-bucket_name = "doc-summarizer-uploads"
+bucket_name = os.getenv("AWS_BUCKET_NAME")
 
-# Streamlit file upload
 def upload_file_to_s3(file):
     try:
-        
         existing_files = [obj['Key'] for obj in s3_client.list_objects_v2(Bucket=bucket_name).get('Contents', [])]
         if file.name in existing_files:
             st.info(f"File '{file.name}' already exists in S3.")
@@ -97,10 +94,9 @@ if uploaded_file is not None:
             elif uploaded_file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
                 file_content = extract_text_from_docx(file_content)
             else:
-                 # Assuming text file for other cases
+                # Assuming text file for other cases
                 file_content = file_content.decode("utf-8")
-                
-            # Summarize the document and display
+
             if file_content:
                 summary = summarize_text(file_content)
                 if summary:
