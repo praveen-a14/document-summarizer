@@ -97,7 +97,8 @@ if uploaded_file is not None:
             elif uploaded_file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
                 file_content = extract_text_from_docx(file_content)
             else:
-                file_content = file_content.decode("utf-8")  # Assuming text file for other cases
+                 # Assuming text file for other cases
+                file_content = file_content.decode("utf-8")
                 
             # Summarize the document and display
             if file_content:
